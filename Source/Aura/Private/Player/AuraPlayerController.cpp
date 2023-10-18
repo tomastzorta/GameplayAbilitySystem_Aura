@@ -87,9 +87,12 @@ void AAuraPlayerController::BeginPlay()
 	check(AuraContext); // This will crash the game if AuraContext is null
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem); // This will crash the game if Subsystem is null
-	Subsystem->AddMappingContext(AuraContext, 0);
 
+	if (Subsystem)
+	{
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
+	
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
@@ -107,6 +110,7 @@ void AAuraPlayerController::SetupInputComponent()
 
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 }
+
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D& InputAxisVector = InputActionValue.Get<FVector2d>();
