@@ -1,4 +1,4 @@
-// CopyrightTrojanEngine
+// Copyright Druid Mechanics
 
 
 #include "Character/AuraCharacter.h"
@@ -15,22 +15,23 @@ AAuraCharacter::AAuraCharacter()
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
 }
+
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	// Init ability actor info for the server
+	// Init ability actor info for the Server
 	InitAbilityActorInfo();
-	
 }
+
 void AAuraCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
-	//init ability actor info for the client
+	// Init ability actor info for the Client
 	InitAbilityActorInfo();
 }
 
