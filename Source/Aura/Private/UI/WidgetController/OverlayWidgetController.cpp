@@ -33,7 +33,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, Msg);
 			}
 		}
-		);
+	);	
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
