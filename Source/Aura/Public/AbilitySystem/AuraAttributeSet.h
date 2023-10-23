@@ -71,7 +71,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category = "Primary Attriuibutes")
 	FGameplayAttributeData Strength;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strength);
-	
 	UFUNCTION()
 	void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
 	//~ End Strength AttributeData
@@ -80,7 +79,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category = "Primary Attriuibutes")
 	FGameplayAttributeData Intelligence;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Intelligence);
-
 	UFUNCTION()
 	void OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const;
 	//~ End Intelligence AttributeData
@@ -89,7 +87,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resilience, Category = "Primary Attriuibutes")
 	FGameplayAttributeData Resilience;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resilience);
-
 	UFUNCTION()
 	void OnRep_Resilience(const FGameplayAttributeData& OldResilience) const;
 	//~ End Resilience AttributeData
@@ -98,48 +95,115 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Primary Attriuibutes")
 	FGameplayAttributeData Vigor;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
-
 	UFUNCTION()
 	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
 	//~ End Vigor AttributeData
+
+	/*
+	 * Secondary Attributes
+	 */
+
+	//~ Begin MaxHealth AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
+	UFUNCTION()
+	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
+	//~ End MaxHealth AttributeData
+
+	//~ Begin MaxMana AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_MaxMana, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData MaxMana;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
+	UFUNCTION()
+	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+	//~ End MaxMana AttributeData
+
+	//~ Begin Armor AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_Armor, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Armor);
+	UFUNCTION()
+	void OnRep_Armor(const FGameplayAttributeData& OldArmor) const;
+	//~ End Armor AttributeData
+
+	//~ Begin ArmorPenetration AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_ArmorPenetration, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData ArmorPenetration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorPenetration);
+	UFUNCTION()
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const;
+	//~ End ArmorPenetration AttributeData
+
+	//~ Begin BlockChance AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_BlockChance, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData BlockChance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, BlockChance);
+	UFUNCTION()
+	void OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const;
+	//~ End BlockChance AttributeData
+
+	//~ Begin CriticalHitChance AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_CriticalHitChance, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData CriticalHitChance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalHitChance);
+	UFUNCTION()
+	void OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const;
+	//~ End CriticalHitChance AttributeData
+
+	//~ Begin CriticalHitDamage AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_CriticalHitDamage, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData CriticalHitDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalHitDamage);
+	UFUNCTION()
+	void OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage) const;
+	//~ End CriticalHitDamage AttributeData
+
+	//~ Begin CriticalHitResistance AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_CriticalHitResistance, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData CriticalHitResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalHitResistance);
+	UFUNCTION()
+	void OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const;
+	//~ End CriticalHitResistance AttributeData
+
+	//~ Begin AttackSpeed AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_HealthRegeneration, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData HealthRegeneration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthRegeneration);
+	UFUNCTION()
+	void OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const;
+	//~ End AttackSpeed AttributeData
+
+	//~ Begin ManaRegeneration AttributeData
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_ManaRegeneration, Category = "Secondary Attriuibutes")
+	FGameplayAttributeData ManaRegeneration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegeneration);
+	UFUNCTION()
+	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const;
+	//~ End ManaRegeneration AttributeData
 	
 	/*
 	 * Vital Attributes
 	 */
-	
+
 	//~ Begin Health AttributeData
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attriuibutes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
-	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Vital Attriuibutes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
-
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
-	UFUNCTION()
-	void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const;
 	//~ End Health AttributeData
 
 	//~ Begin Mana AttributeData
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attriuibutes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = onRep_MaxMana, Category = "Vital Attriuibutes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
-	
 	UFUNCTION()
 	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
-	UFUNCTION()
-	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
 	//~ End Mana AttributeData
 
-	//~ End Vital Attributes
-
 private:
-
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 };
 
