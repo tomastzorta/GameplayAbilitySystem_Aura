@@ -67,5 +67,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere) //visible anywhere so we can see it in the editor
 	TObjectPtr<USplineComponent> Spline; //the spline component
-	
+
+	void AutoRun();
 };
