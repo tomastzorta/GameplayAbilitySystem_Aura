@@ -91,7 +91,7 @@ public:
 	//~ End Resilience AttributeData
 
 	//~ Begin Vigor AttributeData
-	UPROPERTY(BlueprintReadOnly, Category = "Primary Attriuibutes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attriuibutes")
 	FGameplayAttributeData Vigor;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
 	UFUNCTION()

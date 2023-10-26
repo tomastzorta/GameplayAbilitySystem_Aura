@@ -13,6 +13,7 @@ class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
 class UAuraAbilitySystemComponent;
+class USplineComponent; //for the spline component
 
 /**
  * 
@@ -41,7 +42,7 @@ private:
 
 	void CursorTrace();
 	IEnemyInterface* LastActor;
-	IEnemyInterface* CurrentActor;
+	IEnemyInterface* ThisActor;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
@@ -54,5 +55,17 @@ private:
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
 	UAuraAbilitySystemComponent* GetASC();
+
+	FVector CachedDestination = FVector::ZeroVector; //place where we want to move
+	float FollowTime= 0.f; //time to follow the destination
+	float ShortPressThreshold = 0.5f; //time to consider a press short
+	bool bAutoRunning = false; //are we autorunning?
+	bool bTargeting = false;
+
+	UPROPERTY(EditDefaultsOnly) //edit defaults only so we can change it in the editor 
+	float AutoRunAcceptanceRadius = 50.f; //how close do we need to be to the destination to stop autorunning?
+
+	UPROPERTY(VisibleAnywhere) //visible anywhere so we can see it in the editor
+	TObjectPtr<USplineComponent> Spline; //the spline component
 	
 };
