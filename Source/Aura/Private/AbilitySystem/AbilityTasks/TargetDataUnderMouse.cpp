@@ -2,20 +2,17 @@
 
 
 #include "AbilitySystem/AbilityTasks/TargetDataUnderMouse.h"
-
 #include "AbilitySystemComponent.h"
 
-UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGameplayAbility* OwningAbility, FName TaskInstanceName, bool bDebug)
+UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGameplayAbility* OwningAbility)
 {
-	UTargetDataUnderMouse* MyObject = NewAbilityTask<UTargetDataUnderMouse>(OwningAbility);
-	return MyObject;
+	UTargetDataUnderMouse* MyObj = NewAbilityTask<UTargetDataUnderMouse>(OwningAbility);
+	return MyObj;
 }
 
 void UTargetDataUnderMouse::Activate()
 {
-
-	const bool bIsLocallyControlled = Ability->GetCurrentActorInfo()->IsLocallyControlled(); // Check if the ability is locally controlled
-
+	const bool bIsLocallyControlled = Ability->GetCurrentActorInfo()->IsLocallyControlled();
 	if (bIsLocallyControlled)
 	{
 		SendMouseCursorData();
@@ -24,9 +21,8 @@ void UTargetDataUnderMouse::Activate()
 	{
 		const FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
 		const FPredictionKey ActivationPredictionKey = GetActivationPredictionKey();
-		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback); // Add the target data replicated callback delegate (this is called when the server sends the target data back to the client
-		const bool bCalledDelegate = AbilitySystemComponent.Get()->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, ActivationPredictionKey); // Call the replicated target data delegates if set (this will call the delegate we just added
-
+		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
+		const bool bCalledDelegate = AbilitySystemComponent.Get()->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, ActivationPredictionKey);
 		if (!bCalledDelegate)
 		{
 			SetWaitingOnRemotePlayerData();
@@ -38,36 +34,33 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 {
 	FScopedPredictionWindow ScopedPrediction(AbilitySystemComponent.Get());
 	
-	APlayerController* PC = Ability->GetCurrentActorInfo()->PlayerController.Get(); // Get the player controller
+	APlayerController* PC = Ability->GetCurrentActorInfo()->PlayerController.Get();
 	FHitResult CursorHit;
-	PC->GetHitResultUnderCursor(ECC_Visibility, false, CursorHit); // Get the hit result under the cursor
+	PC->GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 
-	FGameplayAbilityTargetDataHandle DataHandle; // Create a target data handle
+	FGameplayAbilityTargetDataHandle DataHandle;
 	FGameplayAbilityTargetData_SingleTargetHit* Data = new FGameplayAbilityTargetData_SingleTargetHit();
-	Data->HitResult = CursorHit; // Set the hit result of the target data
-	DataHandle.Add(Data); // Add the target data to the target data handle
-
-	FGameplayTag ApplicationTag;
+	Data->HitResult = CursorHit;
+	DataHandle.Add(Data);
+	
 	AbilitySystemComponent->ServerSetReplicatedTargetData(
 		GetAbilitySpecHandle(),
 		GetActivationPredictionKey(),
 		DataHandle,
 		FGameplayTag(),
-		AbilitySystemComponent->ScopedPredictionKey); // Send the target data to the server
+		AbilitySystemComponent->ScopedPredictionKey);
 
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
-		ValidData.Broadcast(DataHandle); // Broadcast the valid data delegate
+		ValidData.Broadcast(DataHandle);
 	}
 }
 
 void UTargetDataUnderMouse::OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag)
 {
 	AbilitySystemComponent->ConsumeClientReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey());
-
 	if (ShouldBroadcastAbilityTaskDelegates())
 	{
-		ValidData.Broadcast(DataHandle); // Broadcast the valid data delegate
+		ValidData.Broadcast(DataHandle);
 	}
 }
-
