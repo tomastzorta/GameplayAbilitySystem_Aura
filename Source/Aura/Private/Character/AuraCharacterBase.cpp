@@ -49,6 +49,7 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly); // Enable collision so that the character can collide with the ground
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block); // Set collision response to world static so that the character can collide with the ground
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); // Disable collision on the capsule component so that the character can fall through the ground
+	Dissolve(); // Start the dissolve effect
 }
 
 void AAuraCharacterBase::BeginPlay()
@@ -90,6 +91,24 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	AuraASC->AddCharacterAbilities(StartupAbilities);
+}
+
+void AAuraCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this); // Create a dynamic material instance from the dissolve material instance
+		GetMesh()->SetMaterial(0, DynamicMatInst); // Set the material of the mesh to the dynamic material instance
+
+		StartDissolveTimeline(DynamicMatInst); // Start the dissolve timeline
+	}
+	if (IsValid(WeaponDissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatInst = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this); 
+		Weapon->SetMaterial(0, DynamicMatInst); 
+
+		StartWeaponDissolveTimeline(DynamicMatInst);
+	}
 }
 
 
