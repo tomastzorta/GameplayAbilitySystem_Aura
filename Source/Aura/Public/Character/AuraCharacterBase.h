@@ -26,6 +26,10 @@ public:
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;};
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	virtual void Die() override;
+
+	UFUNCTION(NetMulticast, Reliable) // Reliable means that the function will be called on the server and all clients
+	virtual void MulticastHandleDeath();
 
 protected:
 	virtual void BeginPlay() override;

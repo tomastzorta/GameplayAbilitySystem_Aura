@@ -32,4 +32,6 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable) // BlueprintNativeEvent means that the function will be implemented in C++ and can be overridden in Blueprint
 	UAnimMontage* GetHitReactMontage();
+
+	virtual void Die() = 0;
 };

@@ -32,6 +32,25 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
+void AAuraCharacterBase::Die()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true)); // Detach weapon from character
+	MulticastHandleDeath();
+}
+
+void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+{
+	Weapon->SetSimulatePhysics(true); // Enable physics on the weapon ragdoll
+	Weapon->SetEnableGravity(true); // Enable gravity so that the weapon falls to the ground
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly); // Enable collision so that the weapon can collide with the ground
+
+	GetMesh()->SetSimulatePhysics(true); // Enable physics on the character ragdoll
+	GetMesh()->SetEnableGravity(true); // Enable gravity so that the character falls to the ground
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly); // Enable collision so that the character can collide with the ground
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block); // Set collision response to world static so that the character can collide with the ground
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); // Disable collision on the capsule component so that the character can fall through the ground
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
