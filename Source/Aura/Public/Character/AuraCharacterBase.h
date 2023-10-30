@@ -12,6 +12,7 @@ class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UAnimMontage;
 
 UCLASS(Abstract) // Abstract means that this class cannot be instantiated (cannot be used as a blueprint
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
@@ -23,6 +24,8 @@ public:
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const {return AttributeSet;};
+
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -61,4 +64,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 };
