@@ -8,7 +8,9 @@
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -79,6 +81,16 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const float LocalIncomingDamage)
+{
+	if (Props.SourceCharacter != Props.TargetCharacter) // only show if the source is not the target (self damage)
+	{
+		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0))) //get the player controller
+		{
+			PC->ShowDamageNumber(LocalIncomingDamage, Props.TargetCharacter); //show the damage number
+		}
+	}
+}
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -120,6 +132,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 				Props.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
+			
+			ShowFloatingText(Props, LocalIncomingDamage);
 		}
 	}
 }
